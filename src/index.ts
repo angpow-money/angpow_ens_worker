@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { Redis } from '@upstash/redis/cloudflare';
 import { getEnsName } from '@wagmi/core'
 
@@ -19,6 +20,8 @@ type Bindings = {
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
+
+app.use(cors())
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
