@@ -6,7 +6,7 @@ import { http, createConfig } from '@wagmi/core'
 import { mainnet, sepolia } from '@wagmi/core/chains'
 
 export const config = createConfig({
-  chains: [mainnet, sepolia],
+  chains: [mainnet],
   transports: {
     [mainnet.id]: http(),
     // [sepolia.id]: http(),
@@ -34,7 +34,8 @@ app.post('/set', async (c) => {
   try {
     const { key, value } = await c.req.json()
 
-    await redis.set( encodeURI(key) , JSON.stringify(value) )
+    await redis.set(encodeURI(key), value)
+    await redis.set(value.addresses['60'].toLowerCase(), key)
 
     return c.json({
       success: true,
@@ -60,7 +61,7 @@ app.get('/getredis/:key', async (c) => {
   })
 
   try {
-    const value = await redis.get( encodeURI(key) ) as string;
+    const value = await redis.get(encodeURI(key).toLowerCase())
 
     console.log('value', value)
 
