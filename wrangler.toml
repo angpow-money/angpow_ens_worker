@@ -1,6 +1,7 @@
 name = "angpow_ens_worker"
 compatibility_date = "2024-09-20"
 compatibility_flags = [ "nodejs_compat" ]
+account_id = "33c9bad56490db21d8c0241b4cbb8028"
 
 # [vars]
 
