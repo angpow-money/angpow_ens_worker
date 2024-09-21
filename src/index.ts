@@ -81,21 +81,28 @@ app.get('/getredis/:key', async (c) => {
 })
 
 
-app.get('/get/:address', async (c) => {
+app.get('/get/:name', async (c) => {
 
-  let address = c.req.param('address')
+  let key = c.req.param('name')
 
-  const ensName = await getEnsName(config, { address })
+  const redis = new Redis({
+    url: c.env.REDIS_URL,
+    token: c.env.REDIS_TOKEN
+  })
 
-  if (ensName) {
-    return c.json({
-      ens: ensName,
-    })
-  } else {
-    return c.json({
-      ens: null,
-    })
-  }
+  const value = await redis.get(encodeURI(key))
+  return c.json({key, value})
+  //const ensName = await getEnsName(config, { address })
+
+  //if (ensName) {
+  //  return c.json({
+  //    ens: ensName,
+  //  })
+  //} else {
+  //  return c.json({
+  //    ens: null,
+  //  })
+  //}
 
 
 })
